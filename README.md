@@ -82,7 +82,7 @@
 </div>
 
 <div class="content">
-    <h2>Inventory Management</h2>
+    <h2>Inventory aaaaa</h2>
     <input type="text" id="search" placeholder="Search Inventory...">
     <table>
         <tr>
