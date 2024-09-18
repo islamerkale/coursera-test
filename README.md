@@ -8,13 +8,18 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
         .sidebar {
-            width: 20%;
+            width: 100%;
             background-color: #333;
-            height: 100vh;
+            height: auto;
             padding-top: 20px;
-            float: left;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
         }
         .sidebar a {
             padding: 15px;
@@ -28,8 +33,9 @@
             background-color: #575757;
         }
         .content {
-            margin-left: 20%;
+            margin-left: 0;
             padding: 20px;
+            margin-top: 70px; /* Adjust based on the height of the sidebar */
         }
         table {
             width: 100%;
@@ -44,6 +50,20 @@
         }
         th {
             background-color: #f2f2f2;
+        }
+
+        /* Media queries for responsive design */
+        @media screen and (min-width: 768px) {
+            .sidebar {
+                width: 20%;
+                height: 100vh;
+                padding-top: 20px;
+                position: fixed;
+            }
+            .content {
+                margin-left: 20%;
+                margin-top: 0;
+            }
         }
     </style>
 </head>
@@ -85,4 +105,3 @@
 
 </body>
 </html>
-
