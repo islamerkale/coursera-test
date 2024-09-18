@@ -76,7 +76,7 @@
     <a href="#employee">Employee Management</a>
     <a href="#addEmployee">Add Employee</a>
     <a href="#viewEmployee">View Employees</a>
-    <a href="#menu">Menu Management</a>
+    <a href="#menu">Mennnnn Management</a>
     <a href="#addMenu">Add Item</a>
     <a href="#viewMenu">View Menu</a>
 </div>
@@ -105,3 +105,4 @@
 
 </body>
 </html>
+ 
