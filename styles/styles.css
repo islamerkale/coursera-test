@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1{
+    color: #ddd;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #333333;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.logo img {
+    border: 2px solid aquamarine;
+    border-color: rgb(0, 0, 0);
+    width: 50px;
+    margin-right: 10px;
+    border-radius: 30px;
+}
+
+.buttons {
+    display: flex;
+}
+
+.btn {
+    margin: 0 10px;
+    padding: 10px 15px;
+    color: rgb(255, 255, 255);
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #242424;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.checkout img {
+    width: 30px;
+}
+
+main {
+    padding: 20px;
+}
+
+.description {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.product {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.product img {
+    width: 100%;
+}
+
+footer {
+    background-color: #f4f4f4;
+    padding: 10px 0;
+    text-align: center;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+footer li {
+    display: inline;
+    margin: 0 15px;
+}
+
+footer a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
