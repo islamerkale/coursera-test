@@ -1,71 +1,570 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/styles.css">
-    <title>E-Commerce Homepage</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eimear & Islam</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      color: white;
+      background-color: black;
+      overflow-x: hidden;
+      touch-action: pan-y;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: 100;
+    }
+    .nav-left, .nav-right {
+      flex: 1;
+      display: flex;
+    }
+    .nav-left { justify-content: flex-start; }
+    .nav-right { justify-content: flex-end; }
+    .nav-center {
+      flex: 1;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 500;
+      font-family: 'Playfair Display', serif;
+      letter-spacing: 1px;
+    }
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-family: 'Playfair Display', serif;
+      transition: all 0.3s ease;
+    }
+    .nav-link:hover {
+      color: #e0c9b1;
+    }
+    .fullscreen-video {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .fullscreen-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .mute-button {
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: 1px solid white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .mute-button:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    .content-section {
+      padding: 80px 20px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .video-container {
+      margin: 80px 0;
+    }
+    .video-container h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #e0c9b1;
+    }
+    .video-container video {
+      width: 100%;
+      max-height: 80vh;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    #gallery {
+      background-color: #111;
+      padding: 80px 20px;
+      text-align: center;
+    }
+    #gallery h2 {
+      font-size: 32px;
+      margin-bottom: 40px;
+      color: #e0c9b1;
+    }
+    .gallery-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+    .gallery-item {
+      position: relative;
+      width: calc(33% - 15px);
+      max-width: 300px;
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 3px;
+    }
+    .gallery-grid img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 5px 15px rgba(224, 201, 177, 0.3);
+    }
+    .fullscreen-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .gallery-item:hover .fullscreen-icon {
+      opacity: 1;
+    }
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+    }
+    .lightbox-content {
+      position: relative;
+      width: 90%;
+      height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 5px;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .nav-arrow:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    .nav-arrow.left {
+      left: 20px;
+    }
+    .nav-arrow.right {
+      right: 20px;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+      z-index: 10;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .thank-you {
+      display: flex;
+      align-items: center;
+      margin-top: 100px;
+      padding: 60px 0;
+      border-top: 1px solid #333;
+    }
+    .thank-you-photo {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      margin-right: 60px;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+    .thank-you-photo:hover {
+      transform: scale(1.02);
+    }
+    .thank-you-text {
+      flex: 1;
+    }
+    .thank-you-text h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: #e0c9b1;
+    }
+    .thank-you-text p {
+      font-size: 18px;
+      line-height: 1.8;
+      letter-spacing: 0.5px;
+      font-weight: 300;
+    }
+    @media (max-width: 768px) {
+      .gallery-item {
+        width: 100%;
+      }
+      .navbar {
+        padding: 15px 20px;
+      }
+      .nav-center {
+        font-size: 18px;
+      }
+      .thank-you {
+        flex-direction: column;
+        text-align: center;
+        margin-top: 60px;
+        padding: 40px 0;
+      }
+      .thank-you-photo {
+        width: 250px;
+        height: 250px;
+        margin-right: 0;
+        margin-bottom: 30px;
+      }
+      .thank-you-text h2 {
+        font-size: 28px;
+      }
+      .thank-you-text p {
+        font-size: 16px;
+      }
+      .video-container h2, #gallery h2 {
+        font-size: 28px;
+      }
+      .nav-arrow {
+        display: none; /* Mobilde okları gizle */
+      }
+      .lightbox-close {
+        font-size: 24px; /* Mobilde biraz daha küçük çarpı */
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="images/logo.png" alt="Site Logo">
-            <h1>Van Store</h1>
-        </div>
-        <div class="buttons">
-            <button class="btn">Button 1</button>
-            <button class="btn">Button 2</button>
-        </div>
-        <div class="checkout">
-            <img src="checkout-icon.png" alt="Checkout">
-        </div>
-    </header>
+  <!-- Önceki içerik aynı kalıyor... -->
+  <div class="navbar">
+    <div class="nav-left"><a href="#ourstory" class="nav-link">Our Story</a></div>
+    <div class="nav-center">Eimear & Islam</div>
+    <div class="nav-right"><a href="#gallery" class="nav-link">Gallery</a></div>
+  </div>
 
-    <main>
-        <section class="description">
-            <h2>Welcome!</h2>
-            <p>Discover our lates LATEST latest products.</p>
-        </section>
+  <div class="fullscreen-video">
+    <video id="fullscreenVideo" autoplay muted loop>
+      <source src="videos/kisa.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <button class="mute-button" id="muteButton">🔇</button>
+  </div>
+
+  <div class="content-section">
+    <div class="video-container" >
+      <h2>Our Wedding Day</h2>
+      <video controls>
+        <source src="videos/FINAL REVIZE.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div id="gallery">
+      <h2>Wedding Photos</h2>
+      <div class="gallery-grid">
+        <!-- Fotoğraflar burada -->
+        <!-- Örnek birkaç fotoğraf gösteriyorum, gerisi aynı -->
+        <div class="gallery-item">
+          <img src="images/wedding/1.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
         
-        <section class="products">
-            <div class="product">
-                <img src="product1.jpg" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>Price: 100 TL</p>
-            </div>
-            <div class="product">
-                <img src="product2.jpg" alt="Product 2">
-                <h3>Product 2</h3>
-                <p>Price: 150 TL</p>
-            </div>
-            <div class="product">
-                <img src="product3.jpg" alt="Product 3">
-                <h3>Product 3</h3>
-                <p>Price: 200 TL</p>
-            </div>
-            <div class="product">
-                <img src="product4.jpg" alt="Product 4">
-                <h3>Product 4</h3>
-                <p>Price: 250 TL</p>
-            </div>
-            <div class="product">
-                <img src="product5.jpg" alt="Product 5">
-                <h3>Product 5</h3>
-                <p>Price: 300 TL</p>
-            </div>
-            <div class="product">
-                <img src="product6.jpg" alt="Product 6">
-                <h3>Product 6</h3>
-                <p>Price: 350 TL</p>
-            </div>
-        </section>
-    </main>
+        <div class="gallery-item">
+          <img src="images/wedding/3.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/4.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div> <div class="gallery-item">
+          <img src="images/wedding/5.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        
+        <div class="gallery-item">
+          <img src="images/wedding/7.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/8.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/9.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/10.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div> <div class="gallery-item">
+          <img src="images/wedding/11.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/12.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/13.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/14.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/15.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/16.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div> <div class="gallery-item">
+          <img src="images/wedding/17.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/18.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/19.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/20.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/21.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div> <div class="gallery-item">
+          <img src="images/wedding/22.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/23.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div>
+       
+        <div class="gallery-item">
+          <img src="images/wedding/25.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/26.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div> <div class="gallery-item">
+          <img src="images/wedding/27.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/28.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/29.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div>
+        
+        <div class="gallery-item">
+          <img src="images/wedding/31.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div> <div class="gallery-item">
+          <img src="images/wedding/32.jpg" alt="1">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/1.jpg')">⛶</button>
+        </div>
+        <div class="gallery-item">
+          <img src="images/wedding/33.jpg" alt="3">
+          <button class="fullscreen-icon" onclick="openImageFullscreen('images/wedding/3.jpg')">⛶</button>
+        </div>
+        <!-- Diğer fotoğraflar... -->
+      </div>
+    </div>
 
-    <footer>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </footer>
+    <div class="video-container" id="ourstory">
+      <h2>Our Story</h2>
+      <video controls>
+        <source src="videos/Eimear-Islam-12april2025.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div class="thank-you">
+      <img src="images/WhatsApp Image 2025-03-30 at 10.01.14 PM-4.jpeg" alt="Thank You" class="thank-you-photo">
+      <div class="thank-you-text">
+        <h2>With Gratitude</h2>
+        <p>Dearest friends and family,<br><br>
+        Our hearts overflow with love and appreciation for each of you who shared in our special day. Your presence, laughter, and blessings made our wedding celebration truly magical. As we begin this beautiful journey together, we will forever cherish the memories we created with you. Thank you for being part of our love story and for all the warmth you've brought into our lives.<br><br>
+        With all our love,<br>
+        <span style="font-style: italic; color: #e0c9b1;">Eimear & Islam</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <img src="" alt="">
+      <button class="nav-arrow left" onclick="prevImage()">❮</button>
+      <button class="nav-arrow right" onclick="nextImage()">❯</button>
+      <button class="lightbox-close" onclick="closeLightbox()">×</button>
+    </div>
+  </div>
+
+  <script>
+    // Lightbox fonksiyonları
+    const images = document.querySelectorAll('.gallery-grid img');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    let currentIndex = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    images.forEach((img, i) => {
+      img.addEventListener('click', () => {
+        currentIndex = i;
+        showLightbox();
+      });
+    });
+
+    function showLightbox() {
+      lightboxImg.src = images[currentIndex].src;
+      lightbox.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      lightboxImg.src = images[currentIndex].src;
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      lightboxImg.src = images[currentIndex].src;
+    }
+
+    // Dokunmatik kaydırma için event listener'lar
+    lightboxImg.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+
+    lightboxImg.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) {
+        nextImage();
+      }
+      if (touchEndX > touchStartX + 50) {
+        prevImage();
+      }
+    }
+
+    // Ses açma/kapama butonu
+    const fullscreenVideo = document.getElementById('fullscreenVideo');
+    const muteButton = document.getElementById('muteButton');
+
+    muteButton.addEventListener('click', () => {
+      if (fullscreenVideo.muted) {
+        fullscreenVideo.muted = false;
+        muteButton.textContent = '🔊';
+      } else {
+        fullscreenVideo.muted = true;
+        muteButton.textContent = '🔇';
+      }
+    });
+
+    // Klavye kontrolü
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.style.display === 'flex') {
+        if (e.key === 'ArrowRight') nextImage();
+        else if (e.key === 'ArrowLeft') prevImage();
+        else if (e.key === 'Escape') closeLightbox();
+      }
+    });
+
+    // Sayfa yüklendiğinde tam ekran videoyu oynat
+    document.addEventListener('DOMContentLoaded', () => {
+      fullscreenVideo.play().catch(e => console.log("Video oynatma hatası:", e));
+    });
+  </script>
 </body>
 </html>
